@@ -20,8 +20,8 @@ for filename in os.listdir(image_directory):
             files = {"file": img_file}
             
             # Send the image to the FastAPI server
-            # response = requests.post("http://127.0.0.1:8000/predict_image", files=files)
+            response = requests.post("http://127.0.0.1:8000/predict_image", files=files)
             # https://corn-diseases.onrender.com
-            response = requests.post("https://corn-diseases.onrender.com:10000/predict_image", files=files)
+            # response = requests.post("https://corn-diseases.onrender.com:10000/predict_image", files=files)
             # Print the prediction result
             print(f"Prediction for {filename}: {response.json()}")
