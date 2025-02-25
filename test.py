@@ -1,8 +1,9 @@
 import time
+import os
 import requests
 from requests.exceptions import ConnectTimeout, RequestException
 
-def make_request_with_retry(url, files, retries=3, delay=5, timeout=60):
+def make_request_with_retry(url, files, retries=3, delay=3, timeout=60):
     """
     Makes a POST request to the given URL with retries on failure.
     
@@ -53,3 +54,4 @@ for filename in os.listdir(image_directory):
                 print(f"Prediction for {filename}: {response.json()}")
             else:
                 print(f"Failed to get prediction for {filename}.")
+                break

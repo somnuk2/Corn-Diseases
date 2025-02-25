@@ -53,4 +53,4 @@ async def predict_image(file: UploadFile = File(...)):  # Ensure the file is req
     
 # To run the app using uvicorn
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=10000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
