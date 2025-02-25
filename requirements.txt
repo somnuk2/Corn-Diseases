@@ -10,3 +10,4 @@ torchvision==0.20.1
 uvicorn==0.34.0
 wheel==0.45.1
 pandas
+python-multipart
