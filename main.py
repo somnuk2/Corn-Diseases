@@ -19,7 +19,7 @@ model.summary()
 
 app = FastAPI()
 
-@app.post("/predict_image")
+@app.post("/")
 async def predict_image(file: UploadFile = File(...)):  # Ensure the file is required
     try:
         # Read the uploaded image file
