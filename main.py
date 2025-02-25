@@ -18,8 +18,13 @@ model = tf.keras.models.load_model("Trained_Model_Cnn/model.h5")
 model.summary()
 
 app = FastAPI()
+# Define the root endpoint
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Image Prediction API!"}
 
-@app.post("/")
+# Define the predict_image endpoint
+@app.post("/predict_image")
 async def predict_image(file: UploadFile = File(...)):  # Ensure the file is required
     try:
         # Read the uploaded image file
