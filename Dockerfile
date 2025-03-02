@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt /app/
+COPY model.h5 /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application files
