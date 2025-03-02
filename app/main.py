@@ -13,7 +13,7 @@ img_width = 224
 class_names = ['CDM', 'HT', 'MDMV', 'NCLB', 'SCLB', 'SCMV', 'SR']
 print("Class Names:", class_names)
 # Load the model
-model = tf.keras.models.load_model("Trained_Model_Cnn/model.h5")
+model = tf.keras.models.load_model("model.h5")
 # Print the model summary
 model.summary()
 
