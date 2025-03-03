@@ -38,6 +38,7 @@ def read_root():
 @app.post("/predict_image")
 async def predict_image(file: UploadFile = File(...)):  # Ensure the file is required
     try:
+        global model
         # Load model if it was not loaded
         if model is None:
             model = tf.keras.models.load_model("model.h5")  
