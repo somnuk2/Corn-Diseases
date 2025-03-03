@@ -41,7 +41,9 @@ async def predict_image(file: UploadFile = File(...)):  # Ensure the file is req
         # Load model if it was not loaded
         if model is None:
             model = tf.keras.models.load_model("model.h5")  
-
+            model.summary()
+        else:    
+            print("Model loaded successfully!")  # Check in logs
         # Read the uploaded image file
         contents = await file.read()
         # Load the image and resize it

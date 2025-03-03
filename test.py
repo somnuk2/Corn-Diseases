@@ -47,7 +47,7 @@ for filename in os.listdir(image_directory):
             files = {"file": img_file}
             
             # Send the image to the FastAPI server with retry logic
-            response = make_request_with_retry("https://corn-diseases.onrender.com:10000", files)
+            response = make_request_with_retry("https://corn-diseases.onrender.com/predict_image", files)
 
             if response:
                 # Print the prediction result
