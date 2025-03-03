@@ -1,4 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse  # Import FileResponse
 import io
 import numpy as np
 import tensorflow as tf
@@ -13,12 +15,20 @@ img_width = 224
 # Class names for the images
 class_names = ['CDM', 'HT', 'MDMV', 'NCLB', 'SCLB', 'SCMV', 'SR']
 print("Class Names:", class_names)
-# Load the model
-model = tf.keras.models.load_model("model.h5")
-# Print the model summary
-model.summary()
+
+model = None  # Set model to None initially
 
 app = FastAPI()
+@app.on_event("startup")
+async def load_model():
+    global model
+    # Load the model
+    model = tf.keras.models.load_model("model.h5")
+    # Print the model summary
+    model.summary()
+# Serve static files (including favicon.ico)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+    
 # Define the root endpoint
 @app.get("/")
 def read_root():
@@ -28,6 +38,10 @@ def read_root():
 @app.post("/predict_image")
 async def predict_image(file: UploadFile = File(...)):  # Ensure the file is required
     try:
+        # Load model if it was not loaded
+        if model is None:
+            model = tf.keras.models.load_model("model.h5")  
+
         # Read the uploaded image file
         contents = await file.read()
         # Load the image and resize it
@@ -37,6 +51,7 @@ async def predict_image(file: UploadFile = File(...)):  # Ensure the file is req
         # Add batch dimension (since the model expects batches)
         img_array = tf.expand_dims(img_array, axis=0)
         #  Get the prediction (raw output from the model)
+        
         prediction = model.predict(img_array)
         # If the model has logits as output, apply softmax
         if 'from_logits' in model.loss.get_config() and model.loss.get_config()['from_logits']:
@@ -56,6 +71,11 @@ async def predict_image(file: UploadFile = File(...)):  # Ensure the file is req
     
     except Exception as e:
         return {"error": str(e)}
+    
+# You can also provide a route for favicon.ico if you want to customize it
+@app.get("/favicon.ico")
+async def favicon():
+    return FileResponse("static/favicon.ico")
     
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0",  port=int(os.getenv("PORT", 8000)), reload=True)
