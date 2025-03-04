@@ -36,7 +36,8 @@ def make_request_with_retry(url, files, retries=3, delay=3, timeout=60):
     return None
 
 # Directory containing the images
-image_directory = "D:/CNN-With/data/SR"  # Update this path as needed
+# image_directory = "D:/CNN-With/data/SR"  # Update this path as needed
+image_directory = "D:/CNN-With/data/CDM"
 
 # Loop through all the files in the directory
 for filename in os.listdir(image_directory):

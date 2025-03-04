@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse  # Import FileResponse
+from fastapi.middleware.cors import CORSMiddleware  # Import CORSMiddleware
 import io
 import numpy as np
 import tensorflow as tf
@@ -19,6 +20,22 @@ print("Class Names:", class_names)
 model = None  # Set model to None initially
 
 app = FastAPI()
+
+# Add CORSMiddleware to allow requests from specific origins
+origins = [
+    "http://localhost:8080",  # Allow your local frontend
+    # You can also add other origins here if needed, like:
+    # "https://your-frontend-domain.com", 
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allows all origins listed in the 'origins' list
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
+
 @app.on_event("startup")
 async def load_model():
     global model
